@@ -4,15 +4,16 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import com.pop.practice.homework.first.collection.AbstractCollection;
+import com.pop.practice.homework.first.collection.Collection;
 import com.pop.practice.homework.first.collection.Iterator;
 
 /**
  * @author haipop Date: 17-2-16 Time: 下午6:34
  */
-public class LinkQueue<T> extends AbstractCollection<T> implements Queue<T>,Serializable {
+public class LinkQueue<T> extends AbstractCollection<T> implements Queue<T>, Serializable {
 
     private static final long serialVersionUID = 7942321140756962637L;
-    
+
     /**
      * 头节点
      */
@@ -33,7 +34,7 @@ public class LinkQueue<T> extends AbstractCollection<T> implements Queue<T>,Seri
      */
     private Iterator iterator;
 
-    LinkQueue() {
+    public LinkQueue() {
         this.size = 0;
     }
 
@@ -88,6 +89,11 @@ public class LinkQueue<T> extends AbstractCollection<T> implements Queue<T>,Seri
     }
 
     @Override
+    public void push(Collection<T> collection) throws IllegalAccessException {
+        addAll(collection);
+    }
+
+    @Override
     public int contain(T element) {
         Node tmp = this.head;
         int index = 0;
@@ -109,6 +115,7 @@ public class LinkQueue<T> extends AbstractCollection<T> implements Queue<T>,Seri
         }
         Node node = this.tail.getBefore();
         this.tail.setBefore(node.getBefore());
+        size--;
         return node.getData();
     }
 
@@ -153,7 +160,7 @@ public class LinkQueue<T> extends AbstractCollection<T> implements Queue<T>,Seri
         }
     }
 
-    private class Node implements Serializable{
+    private class Node implements Serializable {
 
         private static final long serialVersionUID = 6400564182277299061L;
 

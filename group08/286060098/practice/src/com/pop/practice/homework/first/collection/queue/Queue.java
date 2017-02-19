@@ -15,6 +15,11 @@ public interface Queue<T> extends Collection<T> {
     void push(T element) throws IllegalAccessException;
 
     /**
+     * 添加元素
+     */
+    void push(Collection<T> collection) throws IllegalAccessException;
+
+    /**
      * 取元素,删除最后一个并返回
      */
     T pull();

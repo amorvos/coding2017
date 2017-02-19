@@ -14,6 +14,19 @@ class TreeNode<T> {
      */
     private TreeNode parent;
 
+    TreeNode() {
+
+    }
+
+    TreeNode(T data) {
+        this.data = data;
+    }
+
+    TreeNode(T data, TreeNode parent) {
+        this.data = data;
+        this.parent = parent;
+    }
+
     public T getData() {
         return data;
     }
