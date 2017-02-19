@@ -1,15 +1,18 @@
 package com.pop.practice.homework.first.collection.list;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-import com.pop.practice.homework.first.collection.Collection;
+import com.pop.practice.homework.first.collection.AbstractCollection;
 import com.pop.practice.homework.first.collection.Iterator;
 import com.pop.practice.homework.utils.Math;
 
 /**
  * @author haipop Date: 17-2-16 Time: 下午6:33
  */
-public class ArrayList<T> implements Collection<T> {
+public class ArrayList<T> extends AbstractCollection<T> implements List<T>, Serializable {
+
+    private static final long serialVersionUID = -3408657766857424074L;
 
     /**
      * 阈值
@@ -95,16 +98,6 @@ public class ArrayList<T> implements Collection<T> {
         this.store[flag] = element;
     }
 
-    @Override
-    public void addAll(Collection<T> collection) throws IllegalAccessException {
-        assessStore(flag + collection.size(), size, store, flag);
-        Iterator iterator = collection.iterator();
-        while (iterator.hasNext()) {
-            Object element = iterator.next();
-            this.store[++flag] = element;
-        }
-    }
-
     private void assessStore(int left, int size, Object[] store, int flag) throws IllegalAccessException {
         if (!autoIncrement) {
             return;
@@ -131,15 +124,6 @@ public class ArrayList<T> implements Collection<T> {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public void removeAll(Collection<T> collection) {
-        Iterator iterator = collection.iterator();
-        while (iterator.hasNext()) {
-            remove((T) iterator.next());
-        }
-    }
-
-    @Override
     public int contain(T element) {
         int result = -1;
         for (int i = 0; i < flag; i++) {
@@ -148,6 +132,12 @@ public class ArrayList<T> implements Collection<T> {
             }
         }
         return result;
+    }
+
+    @Override
+    @SuppressWarnings("uncheckd")
+    public T get(int index) throws IndexOutOfBoundsException {
+        return (T) this.store[index];
     }
 
     private class ArrayListIterator implements Iterator {

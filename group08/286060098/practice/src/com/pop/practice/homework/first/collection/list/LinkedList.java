@@ -1,14 +1,17 @@
 package com.pop.practice.homework.first.collection.list;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-import com.pop.practice.homework.first.collection.Collection;
+import com.pop.practice.homework.first.collection.AbstractCollection;
 import com.pop.practice.homework.first.collection.Iterator;
 
 /**
  * @author haipop Date: 17-2-16 Time: 下午6:34
  */
-public class LinkedList<T> implements Collection<T> {
+public class LinkedList<T> extends AbstractCollection<T> implements List<T>, Serializable {
+
+    private static final long serialVersionUID = 365915684200725970L;
 
     /**
      * 头节点
@@ -47,9 +50,6 @@ public class LinkedList<T> implements Collection<T> {
         return this.flag;
     }
 
-    /**
-     * 这里用尾插法
-     */
     @Override
     public void add(T element) throws IllegalAccessException {
         if (this.head.getData() == null) {
@@ -68,15 +68,6 @@ public class LinkedList<T> implements Collection<T> {
         this.tail.next = node;
         this.tail = node;
         flag++;
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public void addAll(Collection<T> collection) throws IllegalAccessException {
-        Iterator iterator = collection.iterator();
-        while (iterator.hasNext()) {
-            add((T) iterator.next());
-        }
     }
 
     @Override
@@ -110,16 +101,6 @@ public class LinkedList<T> implements Collection<T> {
             }
             tmp = tmp.next;
         }
-
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public void removeAll(Collection<T> collection) {
-        Iterator iterator = collection.iterator();
-        while (iterator.hasNext()) {
-            remove((T) iterator.next());
-        }
     }
 
     @Override
@@ -135,6 +116,19 @@ public class LinkedList<T> implements Collection<T> {
             }
         }
         return -1;
+    }
+
+    @Override
+    public T get(int index) throws IndexOutOfBoundsException {
+        Node tmp = this.head;
+        for (int i = 1; i < index; i++) {
+            if (tail == tmp) {
+                // 到最后还没到指定位置,越界
+                throw new IndexOutOfBoundsException();
+            }
+            tmp = tmp.getNext();
+        }
+        return tmp.getData();
     }
 
     @Override
@@ -181,8 +175,9 @@ public class LinkedList<T> implements Collection<T> {
     /**
      * 链表节点类 --> 这里做了双向链表，这里如果是一个跳表的话查询性能会更好一点
      */
-    private class Node {
+    private class Node implements Serializable {
 
+        private static final long serialVersionUID = 6327349429030778592L;
         /**
          * 数据
          */
