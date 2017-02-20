@@ -54,7 +54,7 @@ public class BinaryTree<T extends Comparable> extends AbstractTree<T> implements
         if (root == null) {
             return;
         }
-        removeNode(elements, root);
+        root = removeNode(elements, root);
     }
 
     @SuppressWarnings("unchecked")
@@ -65,8 +65,13 @@ public class BinaryTree<T extends Comparable> extends AbstractTree<T> implements
         if (((Comparable) node.getData()).compareTo(element) < 0) {
             node.setRight(removeNode(element, node.getRight()));
         }
-
-
+        if (node.getLeft() != null) {
+            return node.getLeft();
+        } else if (node.getRight() != null) {
+            return node.getRight();
+        } else {
+            return null;
+        }
     }
 
     @Override
