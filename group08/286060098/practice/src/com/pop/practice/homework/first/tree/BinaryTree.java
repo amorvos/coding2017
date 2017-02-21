@@ -59,18 +59,41 @@ public class BinaryTree<T extends Comparable> extends AbstractTree<T> implements
 
     @SuppressWarnings("unchecked")
     private BinaryNode removeNode(T element, BinaryNode<T> node) {
-        if (((Comparable) node.getData()).compareTo(element) > 0) {
-            node.setRight(removeNode(element, node.getLeft()));
+        BinaryNode left = node.getLeft();
+        BinaryNode right = node.getRight();
+        if (node.getData().compareTo(element) > 0) {
+            BinaryNode removeNode = removeNode(element, right);
+            moveNode(element, node, left, right, removeNode);
+            node.setRight(removeNode);
+        } else if (node.getData().compareTo(element) < 0) {
+            BinaryNode removeNode = removeNode(element, left);
+            moveNode(element, node, left, right, removeNode);
+            node.setLeft(removeNode);
         }
-        if (((Comparable) node.getData()).compareTo(element) < 0) {
-            node.setRight(removeNode(element, node.getRight()));
-        }
-        if (node.getLeft() != null) {
-            return node.getLeft();
-        } else if (node.getRight() != null) {
-            return node.getRight();
+        if (left != null) {
+            return left;
+        } else if (right != null) {
+            return right;
         } else {
             return null;
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void moveNode(T element, BinaryNode<T> node, BinaryNode<T> left, BinaryNode<T> right,
+            BinaryNode<T> removeNode) {
+        if (removeNode.getData().compareTo(right) > 0) {
+            BinaryNode tmp = removeNode.getRight();
+            while (tmp != null) {
+                tmp = tmp.getRight();
+            }
+            tmp.setRight(left.getRight());
+        } else if (node.getData().compareTo(element) < 0) {
+            BinaryNode tmp = removeNode.getLeft();
+            while (tmp != null) {
+                tmp = tmp.getLeft();
+            }
+            tmp.setLeft(right.getLeft());
         }
     }
 
